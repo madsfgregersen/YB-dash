@@ -1,3 +1,7 @@
-git add package.json
-git commit -m "Add @netlify/blobs dependency"
-git push
+{
+  "name": "yb-dashboard",
+  "type": "module",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
