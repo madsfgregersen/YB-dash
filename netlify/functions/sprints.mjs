@@ -47,3 +47,9 @@ export default async (req) => {
     });
   } catch (err) {
     return Response.json({ error: err.message }, { status: 500 });
+  }
+};
+
+export const config = {
+  path: '/api/sprints'
+};
