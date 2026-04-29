@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YellowBeard · Prioritization Dashboard</title>
+<style>
+  :root {
+    color-scheme: light;
+    --purple: #5B5FC7;
+    --purple-light: #EEEEF8;
+    --purple-lighter: #F7F7FC;
+    --dark: #2D2D2D;
+    --gray: #5F6068;
+    --border: #D8D8EE;
+    --white: #ffffff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--purple-lighter); color: var(--dark); font-size: 13px; }
+
+  .header { background: var(--purple); color: white; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .header-left { display: flex; align-items: center; gap: 10px; }
+  .logo { width: 28px; height: 28px; background: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .header h1 { font-size: 15px; font-weight: 600; }
+  .header p { font-size: 11px; opacity: 0.75; margin-top: 2px; }
+  .header-right { display: flex; gap: 8px; align-items: center; }
+  .btn { padding: 6px 12px; border-radius: 6px; border: none; cursor: pointer; font-size: 12px; font-weight: 500; }
+  .btn-ghost { background: rgba(255,255,255,0.18); color: white; }
+  .btn-ghost:hover { background: rgba(255,255,255,0.28); }
+  .sync-status { font-size: 11px; opacity: 0.7; }
+
+  .stats-bar { display: flex; gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
+  .stat { flex: 1; background: white; padding: 10px 12px; text-align: center; }
+  .stat .val { font-size: 20px; font-weight: 700; color: var(--purple); }
+  .stat .lbl { font-size: 10px; color: var(--gray); text-transform: uppercase; letter-spacing: 0.4px; margin-top: 1px; }
+
+  .toolbar { padding: 10px 16px; background: white; border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .search-wrap { position: relative; flex: 1; min-width: 150px; }
+  .search-wrap input { width: 100%; padding: 6px 10px 6px 28px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; background: var(--purple-lighter); outline: none; }
+  .search-wrap input:focus { border-color: var(--purple); }
+  .si { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); color: var(--gray); }
+  select { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; background: var(--purple-lighter); color: var(--dark); outline: none; cursor: pointer; }
+  select:focus { border-color: var(--purple); }
+
+  .ms-wrap { position: relative; }
+  .ms-btn { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; background: var(--purple-lighter); color: var(--dark); cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; font-family: inherit; }
+  .ms-btn:hover, .ms-btn.open { border-color: var(--purple); }
+  .ms-btn.active { border-color: var(--purple); background: var(--purple-light); color: var(--purple); font-weight: 600; }
+  .ms-dropdown { position: absolute; top: calc(100% + 4px); left: 0; background: white; border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); z-index: 200; min-width: 190px; padding: 4px 0; }
+  .ms-option { display: flex; align-items: center; gap: 8px; padding: 7px 12px; cursor: pointer; font-size: 12px; color: var(--dark); user-select: none; }
+  .ms-option:hover { background: var(--purple-lighter); }
+  .ms-option input[type=checkbox] { accent-color: var(--purple); width: 13px; height: 13px; flex-shrink: 0; cursor: pointer; }
+  .ms-divider { height: 1px; background: var(--border); margin: 4px 0; }
+  .ms-clear { display: block; width: 100%; text-align: left; padding: 6px 12px; font-size: 11px; color: var(--gray); background: none; border: none; cursor: pointer; font-family: inherit; }
+  .ms-clear:hover { color: var(--purple); }
+
+  .table-wrap { overflow: auto; max-height: calc(100vh - 172px); }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  thead th { background: white; position: sticky; top: 0; z-index: 10; padding: 8px 10px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.4px; color: var(--gray); font-weight: 600; border-bottom: 2px solid var(--border); cursor: pointer; white-space: nowrap; user-select: none; }
+  thead th:hover { color: var(--purple); }
+  thead th.asc::after { content: ' ↑'; color: var(--purple); }
+  thead th.desc::after { content: ' ↓'; color: var(--purple); }
+  tbody tr { background: white; border-bottom: 1px solid var(--border); }
+  tbody tr:hover { background: var(--purple-lighter); }
+  tbody tr.done-row { opacity: 0.65; }
+  td { padding: 8px 10px; vertical-align: middle; }
+
+  .key a { color: var(--purple); text-decoration: none; font-weight: 600; white-space: nowrap; }
+  .key a:hover { text-decoration: underline; }
+  .summary { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .tag { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+  .t-bug      { background:#fdecea; color:#c0392b; }
+  .t-request  { background:#e8f4fd; color:#2980b9; }
+  .t-email    { background:#fef9e7; color:#d68910; }
+  .t-question { background:#f0f0f0; color:#555; }
+
+  .pill { padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+  .s-escalated  { background:#fdecea; color:#c0392b; }
+  .s-inprogress { background:#e8f5e9; color:#27ae60; }
+  .s-todo       { background:#f0f0f0; color:#555; }
+  .s-onhold     { background:#fef9e7; color:#d68910; }
+  .s-nextup     { background:#e8f4fd; color:#2980b9; }
+  .s-done       { background:#e8f5e9; color:#27ae60; }
+
+  .prio-major { color:#c0392b; font-weight:600; font-size:11px; }
+  .prio-minor { color:#d68910; font-weight:600; font-size:11px; }
+
+  .score-input { width:50px; padding:4px 6px; border:1px solid var(--border); border-radius:4px; font-size:12px; font-weight:600; color:var(--purple); text-align:center; background:var(--purple-lighter); outline:none; }
+  .score-input:focus { border-color:var(--purple); background:white; }
+  .notes-input { width:260px; min-height:54px; padding:6px 8px; border:1px solid var(--border); border-radius:4px; font-size:11px; line-height:1.5; color:var(--dark); background:var(--purple-lighter); outline:none; font-family:inherit; resize:vertical; }
+  .notes-input:focus { border-color:var(--purple); background:white; }
+
+  .no-results { text-align:center; padding:40px; color:var(--gray); }
+
+  ::-webkit-scrollbar { width:6px; height:6px; }
+  ::-webkit-scrollbar-track { background:var(--purple-lighter); }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+  ::-webkit-scrollbar-thumb:hover { background:var(--purple); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="#5B5FC7"/>
+        <path d="M8 12h8M12 8v8" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <h1>YellowBeard · Prioritization Dashboard</h1>
+      <p>Support ↔ Dev · Synced: <span id="sync-date"></span></p>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="sync-status" id="sync-status"></span>
+    <button class="btn btn-ghost" onclick="exportCSV()">↓ Export CSV</button>
+  </div>
+</div>
+
+<div class="stats-bar" id="stats-bar"></div>
+
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="si">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </span>
+    <input type="text" id="search" placeholder="Search tickets…" oninput="render()">
+  </div>
+  <select id="f-type" onchange="render()">
+    <option value="">All types</option>
+    <option>Bug</option><option>Request</option><option>Email</option><option>Question</option>
+  </select>
+  <div class="ms-wrap" id="ms-support-wrap">
+    <button class="ms-btn" id="ms-support-btn" onclick="toggleMsDropdown(event)">
+      <span id="ms-support-label">All Support statuses</span>
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="ms-dropdown" id="ms-support-dd" style="display:none">
+      <label class="ms-option"><input type="checkbox" value="Escalated" onchange="onStatusChange()"> Escalated</label>
+      <label class="ms-option"><input type="checkbox" value="In Progress" onchange="onStatusChange()"> In Progress</label>
+      <label class="ms-option"><input type="checkbox" value="Done" onchange="onStatusChange()"> Done</label>
+      <div class="ms-divider"></div>
+      <button class="ms-clear" onclick="clearStatuses()">Clear selection</button>
+    </div>
+  </div>
+  <select id="f-dev" onchange="render()">
+    <option value="">All Dev statuses</option>
+    <option>To Do</option><option>In Progress</option><option>NEXT UP</option><option>ON HOLD</option><option>Done</option>
+  </select>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr id="thead-row">
+        <th onclick="sortBy('supportKey')">Support Ticket</th>
+        <th onclick="sortBy('type')">Type</th>
+        <th onclick="sortBy('summary')">Summary</th>
+        <th onclick="sortBy('supportStatus')">Support Status</th>
+        <th onclick="sortBy('devKey')">Dev Ticket</th>
+        <th onclick="sortBy('devStatus')">Dev Status</th>
+        <th onclick="sortBy('priority')">Priority</th>
+        <th onclick="sortBy('created')">Created</th>
+        <th onclick="sortBy('ybScore')">YB Score <span style="font-weight:400;opacity:.7">(1–20)</span></th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<script>
+const SITE = 'https://weiswise.atlassian.net';
+const SYNC = '2026-04-28';
+
+const DATA = [
+  // Open tickets (15)
+  {supportKey:'DS-332',devKey:'YEL-4163',devStatus:'To Do',      type:'Bug',     summary:"Can't create adresse under the subuser.",                                     supportStatus:'Escalated',  priority:'Major',created:'2026-04-24',ybScore:null,notes:''},
+  {supportKey:'DS-331',devKey:'YEL-4164',devStatus:'To Do',      type:'Bug',     summary:'The button "Users" disappears in the shop',                                   supportStatus:'Escalated',  priority:'Major',created:'2026-04-24',ybScore:null,notes:''},
+  {supportKey:'DS-330',devKey:'YEL-4162',devStatus:'To Do',      type:'Bug',     summary:'Wrong Payment option',                                                        supportStatus:'Escalated',  priority:'Major',created:'2026-04-24',ybScore:null,notes:''},
+  {supportKey:'DS-329',devKey:'YEL-4160',devStatus:'To Do',      type:'Request', summary:'Recurring shipment for customers with an end date.',                          supportStatus:'Escalated',  priority:'Minor',created:'2026-04-23',ybScore:null,notes:''},
+  {supportKey:'DS-328',devKey:'YEL-4158',devStatus:'To Do',      type:'Bug',     summary:'Screensaver in SMART',                                                        supportStatus:'Escalated',  priority:'Major',created:'2026-04-21',ybScore:null,notes:''},
+  {supportKey:'DS-316',devKey:'YEL-4144',devStatus:'To Do',      type:'Email',   summary:'FW: Rettigheder',                                                             supportStatus:'Escalated',  priority:'Major',created:'2026-04-09',ybScore:null,notes:''},
+  {supportKey:'DS-312',devKey:'DOR-13',  devStatus:'To Do',      type:'Request', summary:'Flow plan integration',                                                       supportStatus:'Escalated',  priority:'Minor',created:'2026-04-08',ybScore:null,notes:''},
+  {supportKey:'DS-303',devKey:'YEL-4137',devStatus:'In Progress',type:'Bug',     summary:'Machine online status not synchronize from IoT',                              supportStatus:'Escalated',  priority:'Major',created:'2026-03-26',ybScore:null,notes:''},
+  {supportKey:'DS-266',devKey:'YEL-4118',devStatus:'To Do',      type:'Request', summary:'Purchase agreements should not be possible to set up for recurring delivery.',supportStatus:'Escalated',  priority:'Minor',created:'2026-03-05',ybScore:null,notes:''},
+  {supportKey:'DS-247',devKey:'YEL-4106',devStatus:'To Do',      type:'Bug',     summary:'Machines change model fram MS to FM',                                         supportStatus:'Escalated',  priority:'Major',created:'2026-02-23',ybScore:null,notes:''},
+  {supportKey:'DS-235',devKey:'YEL-4098',devStatus:'ON HOLD',    type:'Request', summary:'Change address on scheduled deliveries',                                      supportStatus:'Escalated',  priority:'Minor',created:'2026-02-13',ybScore:null,notes:''},
+  {supportKey:'DS-234',devKey:'YEL-4097',devStatus:'To Do',      type:'Bug',     summary:'Coffee subscription is not being stopped',                                    supportStatus:'Escalated',  priority:'Major',created:'2026-02-13',ybScore:null,notes:''},
+  {supportKey:'DS-225',devKey:'YEL-4089',devStatus:'NEXT UP',    type:'Request', summary:'Remove Price Groups when creating a new offer',                               supportStatus:'Escalated',  priority:'Minor',created:'2026-02-09',ybScore:null,notes:''},
+  {supportKey:'DS-198',devKey:'YEL-4060',devStatus:'Done',       type:'Bug',     summary:'Existing Agreement Not Available in Sales Module',                            supportStatus:'In Progress',priority:'Major',created:'2026-01-20',ybScore:null,notes:''},
+  {supportKey:'DS-36', devKey:'YEL-4150',devStatus:'To Do',      type:'Question',summary:'Reports',                                                                    supportStatus:'Escalated',  priority:'Minor',created:'2025-10-08',ybScore:null,notes:''},
+  // Done tickets (119, newest → oldest)
+  {supportKey:'DS-309',devKey:'YEL-4142',devStatus:'Done',type:'Bug',    summary:'Not able to either delete or edit machine',                                                   supportStatus:'Done',priority:'Major',created:'2026-04-07',ybScore:null,notes:''},
+  {supportKey:'DS-308',devKey:'YEL-4141',devStatus:'Done',type:'Bug',    summary:'Kundeordre',                                                                                  supportStatus:'Done',priority:'Major',created:'2026-04-01',ybScore:null,notes:''},
+  {supportKey:'DS-305',devKey:'YEL-4139',devStatus:'Done',type:'Bug',    summary:'Dashboard empty',                                                                             supportStatus:'Done',priority:'Major',created:'2026-03-27',ybScore:null,notes:''},
+  {supportKey:'DS-304',devKey:'YEL-4138',devStatus:'Done',type:'Bug',    summary:'New customer will not in shop',                                                               supportStatus:'Done',priority:'Major',created:'2026-03-26',ybScore:null,notes:''},
+  {supportKey:'DS-301',devKey:'YEL-4136',devStatus:'Done',type:'Bug',    summary:"It's not possible to connect the employee via the app",                                       supportStatus:'Done',priority:'Major',created:'2026-03-25',ybScore:null,notes:''},
+  {supportKey:'DS-298',devKey:'YEL-4134',devStatus:'Done',type:'Question',summary:'Delete service history',                                                                     supportStatus:'Done',priority:'Minor',created:'2026-03-23',ybScore:null,notes:''},
+  {supportKey:'DS-297',devKey:'YEL-4135',devStatus:'Done',type:'Bug',    summary:'Fixed deliveries are not included in the coffee agreement report',                           supportStatus:'Done',priority:'Major',created:'2026-03-20',ybScore:null,notes:''},
+  {supportKey:'DS-295',devKey:'YEL-4128',devStatus:'Done',type:'Request',summary:'Customer report',                                                                             supportStatus:'Done',priority:'Minor',created:'2026-03-19',ybScore:null,notes:''},
+  {supportKey:'DS-275',devKey:'YEL-4127',devStatus:'Done',type:'Bug',    summary:'Cannot log in. Urgent!',                                                                      supportStatus:'Done',priority:'Major',created:'2026-03-11',ybScore:null,notes:''},
+  {supportKey:'DS-269',devKey:'YEL-4121',devStatus:'Done',type:'Bug',    summary:'kaffeaftale kan ikke oprette Rødovre Bowling',                                                supportStatus:'Done',priority:'Major',created:'2026-03-09',ybScore:null,notes:''},
+  {supportKey:'DS-268',devKey:'YEL-4120',devStatus:'Done',type:'Bug',    summary:'Salg kan ikke oprette kundeordre til denne kunde CVR 34897778',                               supportStatus:'Done',priority:'Major',created:'2026-03-09',ybScore:null,notes:''},
+  {supportKey:'DS-267',devKey:'YEL-4119',devStatus:'Done',type:'Bug',    summary:'Fault on the monthly discount code',                                                          supportStatus:'Done',priority:'Major',created:'2026-03-06',ybScore:null,notes:''},
+  {supportKey:'DS-264',devKey:'YEL-4117',devStatus:'Done',type:'Question',summary:'Monitoring of key services',                                                                supportStatus:'Done',priority:'Minor',created:'2026-03-04',ybScore:null,notes:''},
+  {supportKey:'DS-263',devKey:'YEL-4116',devStatus:'Done',type:'Bug',    summary:'Not able to change the task status from "Kørsel" to "I gang" in the app',                   supportStatus:'Done',priority:'Major',created:'2026-03-04',ybScore:null,notes:''},
+  {supportKey:'DS-262',devKey:null,       devStatus:null,  type:'Email',  summary:'VS: Flere elementer i status',                                                               supportStatus:'Done',priority:'Major',created:'2026-03-04',ybScore:null,notes:''},
+  {supportKey:'DS-257',devKey:'YEL-4112',devStatus:'Done',type:'Bug',    summary:'Price group 81 instead of 88 during synchronization from e-conomic to Smart',               supportStatus:'Done',priority:'Major',created:'2026-03-03',ybScore:null,notes:''},
+  {supportKey:'DS-256',devKey:'YEL-4111',devStatus:'Done',type:'Bug',    summary:'Cannot create service task in the app.',                                                     supportStatus:'Done',priority:'Major',created:'2026-03-02',ybScore:null,notes:''},
+  {supportKey:'DS-252',devKey:'YEL-4109',devStatus:'Done',type:'Bug',    summary:'Cup agreement is not showing in shop',                                                       supportStatus:'Done',priority:'Major',created:'2026-02-25',ybScore:null,notes:''},
+  {supportKey:'DS-251',devKey:'YEL-4108',devStatus:'Done',type:'Bug',    summary:'Shop is down',                                                                               supportStatus:'Done',priority:'Major',created:'2026-02-25',ybScore:null,notes:''},
+  {supportKey:'DS-246',devKey:'YEL-4107',devStatus:'In Progress',type:'Bug',summary:"Task created on water system doesn't appear in SMART as a task for a water system",      supportStatus:'Done',priority:'Major',created:'2026-02-23',ybScore:null,notes:''},
+  {supportKey:'DS-245',devKey:'YEL-4105',devStatus:'Done',type:'Question',summary:'Salesperson Thomas Knudsen cannot create an offer',                                          supportStatus:'Done',priority:'Minor',created:'2026-02-23',ybScore:null,notes:''},
+  {supportKey:'DS-244',devKey:'YEL-4104',devStatus:'Done',type:'Bug',    summary:'Customer do not receive notifications in their mailbox when tasks are created.',             supportStatus:'Done',priority:'Major',created:'2026-02-19',ybScore:null,notes:''},
+  {supportKey:'DS-241',devKey:'YEL-4102',devStatus:'Done',type:'Bug',    summary:"Orders from Sprinter's website are not going through",                                       supportStatus:'Done',priority:'Major',created:'2026-02-17',ybScore:null,notes:''},
+  {supportKey:'DS-240',devKey:null,       devStatus:null,  type:'Bug',    summary:'Cant download coffee subsription',                                                           supportStatus:'Done',priority:'Major',created:'2026-02-17',ybScore:null,notes:''},
+  {supportKey:'DS-238',devKey:'YEL-4100',devStatus:'Done',type:'Bug',    summary:'Webshob down...',                                                                             supportStatus:'Done',priority:'Major',created:'2026-02-17',ybScore:null,notes:''},
+  {supportKey:'DS-233',devKey:'YEL-4096',devStatus:'Done',type:'Bug',    summary:'Tilbud',                                                                                     supportStatus:'Done',priority:'Major',created:'2026-02-12',ybScore:null,notes:''},
+  {supportKey:'DS-231',devKey:'YEL-4094',devStatus:'Done',type:'Bug',    summary:'This customer is claiming that the app is not working.',                                     supportStatus:'Done',priority:'Major',created:'2026-02-11',ybScore:null,notes:''},
+  {supportKey:'DS-230',devKey:'YEL-4093',devStatus:'Done',type:'Bug',    summary:'Ikke adgang til Kirppu',                                                                     supportStatus:'Done',priority:'Major',created:'2026-02-11',ybScore:null,notes:''},
+  {supportKey:'DS-228',devKey:'YEL-4091',devStatus:'Done',type:'Question',summary:'Wrong product on coffe subscription...',                                                    supportStatus:'Done',priority:'Minor',created:'2026-02-10',ybScore:null,notes:''},
+  {supportKey:'DS-227',devKey:'YEL-4092',devStatus:'Done',type:'Bug',    summary:'Scan spar part QR fails',                                                                    supportStatus:'Done',priority:'Major',created:'2026-02-10',ybScore:null,notes:''},
+  {supportKey:'DS-226',devKey:'YEL-4090',devStatus:'Done',type:'Email',  summary:'FW: New college in operations',                                                              supportStatus:'Done',priority:'Major',created:'2026-02-10',ybScore:null,notes:''},
+  {supportKey:'DS-224',devKey:'YEL-4088',devStatus:'Done',type:'Request',summary:'Salespeople should be able to see all customers.',                                           supportStatus:'Done',priority:'Minor',created:'2026-02-09',ybScore:null,notes:''},
+  {supportKey:'DS-223',devKey:'YEL-4087',devStatus:'Done',type:'Bug',    summary:'External supplier BWT not receiving task assignment notifications',                          supportStatus:'Done',priority:'Major',created:'2026-02-09',ybScore:null,notes:''},
+  {supportKey:'DS-222',devKey:'YEL-4086',devStatus:'Done',type:'Bug',    summary:'Missing payment option when closing task F260203052',                                        supportStatus:'Done',priority:'Major',created:'2026-02-05',ybScore:null,notes:''},
+  {supportKey:'DS-218',devKey:'YEL-4074',devStatus:'Done',type:'Bug',    summary:'The cup agreement does not take effect, and customers are invoiced.',                        supportStatus:'Done',priority:'Major',created:'2026-01-29',ybScore:null,notes:''},
+  {supportKey:'DS-216',devKey:'YEL-4075',devStatus:'Done',type:'Question',summary:'When customer creates two identical tasks',                                                 supportStatus:'Done',priority:'Minor',created:'2026-01-29',ybScore:null,notes:''},
+  {supportKey:'DS-212',devKey:null,       devStatus:null,  type:'Bug',    summary:'Customer synchronization to the shop is not working.',                                      supportStatus:'Done',priority:'Major',created:'2026-01-26',ybScore:null,notes:''},
+  {supportKey:'DS-210',devKey:null,       devStatus:null,  type:'Bug',    summary:'Only machine 3400000142471 needs to remain in Smart',                                       supportStatus:'Done',priority:'Major',created:'2026-01-23',ybScore:null,notes:''},
+  {supportKey:'DS-209',devKey:'YEL-4073',devStatus:'Done',type:'Request',summary:'Omsætningsstatistik --> integration af adressen',                                           supportStatus:'Done',priority:'Minor',created:'2026-01-23',ybScore:null,notes:''},
+  {supportKey:'DS-205',devKey:'YEL-4069',devStatus:'Done',type:'Bug',    summary:'FW: Serviceplan',                                                                            supportStatus:'Done',priority:'Major',created:'2026-01-22',ybScore:null,notes:''},
+  {supportKey:'DS-201',devKey:'YEL-4068',devStatus:'Done',type:'Email',  summary:'FW: en anden EAN udfordring som skal løses.',                                               supportStatus:'Done',priority:'Major',created:'2026-01-20',ybScore:null,notes:''},
+  {supportKey:'DS-199',devKey:'YEL-4062',devStatus:'Done',type:'Email',  summary:'FW: EAN - gør så shop kan huske det flueben',                                              supportStatus:'Done',priority:'Major',created:'2026-01-20',ybScore:null,notes:''},
+  {supportKey:'DS-197',devKey:'YEL-4061',devStatus:'Done',type:'Email',  summary:'FW: Standardbetingelser - in YB SMART sales module',                                        supportStatus:'Done',priority:'Major',created:'2026-01-20',ybScore:null,notes:''},
+  {supportKey:'DS-188',devKey:'YEL-4056',devStatus:'Done',type:'Request',summary:'Postal Code Filter in Task Overview',                                                        supportStatus:'Done',priority:'Major',created:'2026-01-13',ybScore:null,notes:''},
+  {supportKey:'DS-187',devKey:'YEL-4052',devStatus:'Done',type:'Bug',    summary:"Can't Upload Profile Picture",                                                               supportStatus:'Done',priority:'Major',created:'2026-01-12',ybScore:null,notes:''},
+  {supportKey:'DS-185',devKey:'YEL-4095',devStatus:'Done',type:'Bug',    summary:'Only one active task per machine',                                                           supportStatus:'Done',priority:'Major',created:'2026-01-09',ybScore:null,notes:''},
+  {supportKey:'DS-179',devKey:'YEL-4036',devStatus:'Done',type:'Bug',    summary:'Smart app is not working on Android',                                                        supportStatus:'Done',priority:'Major',created:'2026-01-07',ybScore:null,notes:''},
+  {supportKey:'DS-178',devKey:null,       devStatus:null,  type:'Bug',    summary:'Faktura/kopaftale Spira Forsikring GS',                                                     supportStatus:'Done',priority:'Major',created:'2026-01-07',ybScore:null,notes:''},
+  {supportKey:'DS-174',devKey:'YEL-4035',devStatus:'Done',type:'Request',summary:'Not possible to change the year so that you can view previous cleanings.',                   supportStatus:'Done',priority:'Major',created:'2026-01-05',ybScore:null,notes:''},
+  {supportKey:'DS-173',devKey:'YEL-4034',devStatus:'Done',type:'Bug',    summary:'kop rapport',                                                                                supportStatus:'Done',priority:'Major',created:'2026-01-02',ybScore:null,notes:''},
+  {supportKey:'DS-169',devKey:'YEL-4031',devStatus:'Done',type:'Bug',    summary:'kaffeaftale',                                                                                supportStatus:'Done',priority:'Major',created:'2025-12-19',ybScore:null,notes:''},
+  {supportKey:'DS-167',devKey:'YEL-4029',devStatus:'Done',type:'Bug',    summary:"Customer can't se Machine cleaning detail in Smart...",                                      supportStatus:'Done',priority:'Major',created:'2025-12-17',ybScore:null,notes:''},
+  {supportKey:'DS-165',devKey:'YEL-4028',devStatus:'Done',type:'Bug',    summary:'The customer cannot see any data in the overview.',                                          supportStatus:'Done',priority:'Major',created:'2025-12-12',ybScore:null,notes:''},
+  {supportKey:'DS-163',devKey:'YEL-4025',devStatus:'Done',type:'Bug',    summary:'All machines are shown for customers who have no machines.',                                 supportStatus:'Done',priority:'Major',created:'2025-12-11',ybScore:null,notes:''},
+  {supportKey:'DS-162',devKey:'YEL-4024',devStatus:'Done',type:'Bug',    summary:'Customer order history not displaying',                                                      supportStatus:'Done',priority:'Major',created:'2025-12-10',ybScore:null,notes:''},
+  {supportKey:'DS-160',devKey:'YEL-4026',devStatus:'Done',type:'Bug',    summary:'Sales Person disappears on the customer',                                                    supportStatus:'Done',priority:'Major',created:'2025-12-09',ybScore:null,notes:''},
+  {supportKey:'DS-154',devKey:'YEL-4004',devStatus:'Done',type:'Bug',    summary:'kaffeaftale',                                                                                supportStatus:'Done',priority:'Major',created:'2025-12-03',ybScore:null,notes:''},
+  {supportKey:'DS-153',devKey:'YEL-4003',devStatus:'Done',type:'Bug',    summary:'Smart - no access to customer data',                                                         supportStatus:'Done',priority:'Major',created:'2025-12-02',ybScore:null,notes:''},
+  {supportKey:'DS-152',devKey:'YEL-4002',devStatus:'Done',type:'Bug',    summary:'kaffeaftale',                                                                                supportStatus:'Done',priority:'Major',created:'2025-12-01',ybScore:null,notes:''},
+  {supportKey:'DS-149',devKey:'YEL-4001',devStatus:'Done',type:'Bug',    summary:"Customer's cup agreement showing as expired, when it is actually valid until 31/05/2029",   supportStatus:'Done',priority:'Major',created:'2025-11-27',ybScore:null,notes:''},
+  {supportKey:'DS-148',devKey:'YEL-4000',devStatus:'Done',type:'Bug',    summary:'The location details for two machines have disappeared',                                     supportStatus:'Done',priority:'Major',created:'2025-11-27',ybScore:null,notes:''},
+  {supportKey:'DS-145',devKey:'YEL-3999',devStatus:'Done',type:'Bug',    summary:'Location details disappeared from the machine overview in the app...',                       supportStatus:'Done',priority:'Major',created:'2025-11-27',ybScore:null,notes:''},
+  {supportKey:'DS-143',devKey:'YEL-3988',devStatus:'Done',type:'Bug',    summary:'Orders placed in the shop do not appear in e-conomic.',                                     supportStatus:'Done',priority:'Major',created:'2025-11-21',ybScore:null,notes:''},
+  {supportKey:'DS-142',devKey:null,       devStatus:null,  type:'Bug',    summary:'Invoice not to be found + has other invoices not been forwarded?',                          supportStatus:'Done',priority:'Major',created:'2025-11-21',ybScore:null,notes:''},
+  {supportKey:'DS-139',devKey:null,       devStatus:null,  type:'Bug',    summary:'Watertrade cannot complete the tasks',                                                       supportStatus:'Done',priority:'Major',created:'2025-11-20',ybScore:null,notes:''},
+  {supportKey:'DS-135',devKey:'YEL-4033',devStatus:'Done',type:'Question',summary:'Is it possible to make filters in the app permanent?',                                      supportStatus:'Done',priority:'Minor',created:'2025-11-19',ybScore:null,notes:''},
+  {supportKey:'DS-134',devKey:null,       devStatus:null,  type:'Request',summary:'Technicians needs a filter on the front page to choose which tasks to display on the map',  supportStatus:'Done',priority:'Minor',created:'2025-11-19',ybScore:null,notes:''},
+  {supportKey:'DS-133',devKey:null,       devStatus:null,  type:'Request',summary:'Technicians should be able to filter by postal codes in the task overview',                 supportStatus:'Done',priority:'Minor',created:'2025-11-19',ybScore:null,notes:''},
+  {supportKey:'DS-128',devKey:'YEL-3982',devStatus:'Done',type:'Bug',    summary:'Tickets is sorted by "Created On" not by "Occurred At"',                                    supportStatus:'Done',priority:'Major',created:'2025-11-18',ybScore:null,notes:''},
+  {supportKey:'DS-127',devKey:'YEL-3984',devStatus:'Done',type:'Bug',    summary:'Cup agreement is not showing for customer Visma',                                            supportStatus:'Done',priority:'Major',created:'2025-11-18',ybScore:null,notes:''},
+  {supportKey:'DS-126',devKey:null,       devStatus:null,  type:'Bug',    summary:'Is there something wrong with the shop? Three different customers are unable to log in.',   supportStatus:'Done',priority:'Major',created:'2025-11-18',ybScore:null,notes:''},
+  {supportKey:'DS-124',devKey:'YEL-3981',devStatus:'Done',type:'Bug',    summary:'When duplicating a task, the title and description are not carried over',                   supportStatus:'Done',priority:'Major',created:'2025-11-14',ybScore:null,notes:''},
+  {supportKey:'DS-123',devKey:'YEL-3980',devStatus:'To Do',type:'Request',summary:'It should clearly show that there is payment on the machine',                              supportStatus:'Done',priority:'Minor',created:'2025-11-14',ybScore:null,notes:''},
+  {supportKey:'DS-121',devKey:'YEL-3978',devStatus:'Done',type:'Bug',    summary:'Machine notes are not visible to our technicians',                                           supportStatus:'Done',priority:'Major',created:'2025-11-13',ybScore:null,notes:''},
+  {supportKey:'DS-118',devKey:'YEL-3975',devStatus:'Done',type:'Bug',    summary:'No email received when tagged in a service task',                                            supportStatus:'Done',priority:'Major',created:'2025-11-12',ybScore:null,notes:''},
+  {supportKey:'DS-117',devKey:'YEL-3974',devStatus:'Done',type:'Bug',    summary:'Missing the status of machines',                                                             supportStatus:'Done',priority:'Major',created:'2025-11-12',ybScore:null,notes:''},
+  {supportKey:'DS-114',devKey:'YEL-3976',devStatus:'Done',type:'Bug',    summary:'Agreement attachment not visible',                                                           supportStatus:'Done',priority:'Major',created:'2025-11-11',ybScore:null,notes:''},
+  {supportKey:'DS-113',devKey:null,       devStatus:null,  type:'Bug',    summary:"Agreement show as expired when it doesn't actually expire until 2031",                      supportStatus:'Done',priority:'Major',created:'2025-11-10',ybScore:null,notes:''},
+  {supportKey:'DS-112',devKey:null,       devStatus:null,  type:'Bug',    summary:'The location of the customer in the task is not correct.',                                  supportStatus:'Done',priority:'Major',created:'2025-11-10',ybScore:null,notes:''},
+  {supportKey:'DS-111',devKey:'YEL-3971',devStatus:'Done',type:'Request',summary:'Scanning of spare parts from warehouse to car',                                              supportStatus:'Done',priority:'Minor',created:'2025-11-07',ybScore:null,notes:''},
+  {supportKey:'DS-107',devKey:null,       devStatus:null,  type:'Bug',    summary:'The other technicians cannot see our technician Theis in the overview.',                    supportStatus:'Done',priority:'Major',created:'2025-11-06',ybScore:null,notes:''},
+  {supportKey:'DS-106',devKey:'YEL-3969',devStatus:'Done',type:'Bug',    summary:'Drag and drop technician tab on app.',                                                       supportStatus:'Done',priority:'Major',created:'2025-11-06',ybScore:null,notes:''},
+  {supportKey:'DS-105',devKey:'YEL-3968',devStatus:'Done',type:'Request',summary:'Change in color scheme',                                                                     supportStatus:'Done',priority:'Minor',created:'2025-11-06',ybScore:null,notes:''},
+  {supportKey:'DS-102',devKey:null,       devStatus:null,  type:'Bug',    summary:'kaffeaftale - wrong invoice price',                                                          supportStatus:'Done',priority:'Major',created:'2025-11-05',ybScore:null,notes:''},
+  {supportKey:'DS-101',devKey:null,       devStatus:null,  type:'Bug',    summary:'kaffeaftale - error creating coffee agreement',                                              supportStatus:'Done',priority:'Major',created:'2025-11-05',ybScore:null,notes:''},
+  {supportKey:'DS-100',devKey:'YEL-3965',devStatus:'Done',type:'Bug',    summary:'Customer is not receiving any emails',                                                        supportStatus:'Done',priority:'Major',created:'2025-11-04',ybScore:null,notes:''},
+  {supportKey:'DS-99', devKey:'YEL-3964',devStatus:'Done',type:'Bug',    summary:'The system has created two appointments',                                                    supportStatus:'Done',priority:'Major',created:'2025-10-31',ybScore:null,notes:''},
+  {supportKey:'DS-98', devKey:'YEL-3962',devStatus:'Done',type:'Question',summary:'Automatically saved contact information from a previous service task',                      supportStatus:'Done',priority:'Minor',created:'2025-10-31',ybScore:null,notes:''},
+  {supportKey:'DS-96', devKey:'YEL-3961',devStatus:'Done',type:'Bug',    summary:'Not able to see Agreement detail',                                                           supportStatus:'Done',priority:'Major',created:'2025-10-31',ybScore:null,notes:''},
+  {supportKey:'DS-95', devKey:'YEL-3960',devStatus:'Done',type:'Request',summary:'PO mandatory in shop',                                                                       supportStatus:'Done',priority:'Minor',created:'2025-10-30',ybScore:null,notes:''},
+  {supportKey:'DS-94', devKey:'YEL-3959',devStatus:'Done',type:'Question',summary:'How can a machine have a service agreement handshake when assigned to an inactive agreement?',supportStatus:'Done',priority:'Minor',created:'2025-10-30',ybScore:null,notes:''},
+  {supportKey:'DS-93', devKey:null,       devStatus:null,  type:'Bug',    summary:'The customer exists in Smart but not in the shop.',                                          supportStatus:'Done',priority:'Major',created:'2025-10-30',ybScore:null,notes:''},
+  {supportKey:'DS-90', devKey:'YEL-3956',devStatus:'Done',type:'Bug',    summary:'It is not possible to upload a picture when creating a task on a watercooler',              supportStatus:'Done',priority:'Major',created:'2025-10-28',ybScore:null,notes:''},
+  {supportKey:'DS-89', devKey:'YEL-3955',devStatus:'Done',type:'Bug',    summary:'Not able to delete an agreement',                                                            supportStatus:'Done',priority:'Major',created:'2025-10-28',ybScore:null,notes:''},
+  {supportKey:'DS-87', devKey:'YEL-3947',devStatus:'Done',type:'Bug',    summary:'The customer is getting x 5 the invoices',                                                   supportStatus:'Done',priority:'Major',created:'2025-10-27',ybScore:null,notes:''},
+  {supportKey:'DS-81', devKey:null,       devStatus:null,  type:'Bug',    summary:'Not able to save a new Agreement - Again........',                                           supportStatus:'Done',priority:'Major',created:'2025-10-24',ybScore:null,notes:''},
+  {supportKey:'DS-80', devKey:'YEL-3944',devStatus:'Done',type:'Bug',    summary:"Technicians cannot see images in the machine's service history",                             supportStatus:'Done',priority:'Major',created:'2025-10-24',ybScore:null,notes:''},
+  {supportKey:'DS-79', devKey:null,       devStatus:null,  type:'Bug',    summary:'LBL_AG text on agreement',                                                                   supportStatus:'Done',priority:'Major',created:'2025-10-24',ybScore:null,notes:''},
+  {supportKey:'DS-78', devKey:'YEL-3941',devStatus:'Done',type:'Bug',    summary:'How is it possible that a customer can create a service ticket for an inactive machine?',   supportStatus:'Done',priority:'Major',created:'2025-10-23',ybScore:null,notes:''},
+  {supportKey:'DS-77', devKey:null,       devStatus:null,  type:'Bug',    summary:'Service agreement handshake icon is not showing on the machine',                             supportStatus:'Done',priority:'Major',created:'2025-10-22',ybScore:null,notes:''},
+  {supportKey:'DS-76', devKey:null,       devStatus:null,  type:'Bug',    summary:'DS-59 marked as done, but service agreement handshake still not showing on Reneka machine', supportStatus:'Done',priority:'Major',created:'2025-10-22',ybScore:null,notes:''},
+  {supportKey:'DS-72', devKey:null,       devStatus:null,  type:'Bug',    summary:'Not able to make changes in a existing agreement',                                           supportStatus:'Done',priority:'Major',created:'2025-10-21',ybScore:null,notes:''},
+  {supportKey:'DS-71', devKey:null,       devStatus:null,  type:'Bug',    summary:'Kupons for customer B93 Kontrakt Fodbold APS keep being recalled',                          supportStatus:'Done',priority:'Major',created:'2025-10-21',ybScore:null,notes:''},
+  {supportKey:'DS-69', devKey:null,       devStatus:null,  type:'Question',summary:'Case marked Done - but the issue is not resolved',                                          supportStatus:'Done',priority:'Minor',created:'2025-10-20',ybScore:null,notes:''},
+  {supportKey:'DS-68', devKey:null,       devStatus:null,  type:'Bug',    summary:'Not able to save a new agreement on a customer',                                             supportStatus:'Done',priority:'Major',created:'2025-10-19',ybScore:null,notes:''},
+  {supportKey:'DS-67', devKey:'YEL-3933',devStatus:'Done',type:'Bug',    summary:"Can't sync customers in shop anymore...",                                                    supportStatus:'Done',priority:'Major',created:'2025-10-17',ybScore:null,notes:''},
+  {supportKey:'DS-60', devKey:'YEL-3932',devStatus:'Done',type:'Request',summary:'It would be great if the service task included who the salesperson is for the machine/customer',supportStatus:'Done',priority:'Minor',created:'2025-10-15',ybScore:null,notes:''},
+  {supportKey:'DS-57', devKey:'YEL-3931',devStatus:'Done',type:'Bug',    summary:'Option - user group is missing Company name when creating new users in SMART',              supportStatus:'Done',priority:'Major',created:'2025-10-14',ybScore:null,notes:''},
+  {supportKey:'DS-56', devKey:'YEL-3930',devStatus:'Done',type:'Bug',    summary:"I cannot change 'expired' from YES to NO on the agreement.",                                supportStatus:'Done',priority:'Major',created:'2025-10-14',ybScore:null,notes:''},
+  {supportKey:'DS-55', devKey:null,       devStatus:null,  type:'Question',summary:"Isn't it Economic anymore that controls whether a customer is blocked?",                   supportStatus:'Done',priority:'Minor',created:'2025-10-14',ybScore:null,notes:''},
+  {supportKey:'DS-49', devKey:'YEL-3928',devStatus:'Done',type:'Bug',    summary:'There are two A800 units listed under the customer with the same serial number',            supportStatus:'Done',priority:'Major',created:'2025-10-13',ybScore:null,notes:''},
+  {supportKey:'DS-48', devKey:null,       devStatus:null,  type:'Question',summary:'The technicians are asking if they can get access to the Dobby Help Center',               supportStatus:'Done',priority:'Minor',created:'2025-10-10',ybScore:null,notes:''},
+  {supportKey:'DS-47', devKey:null,       devStatus:null,  type:'Bug',    summary:'Hede Holding as a location for multiple users?',                                             supportStatus:'Done',priority:'Major',created:'2025-10-10',ybScore:null,notes:''},
+  {supportKey:'DS-46', devKey:null,       devStatus:null,  type:'Question',summary:'Why was DS-45 closed before it was resolved?',                                             supportStatus:'Done',priority:'Minor',created:'2025-10-09',ybScore:null,notes:''},
+  {supportKey:'DS-45', devKey:null,       devStatus:null,  type:'Bug',    summary:"I haven't received an email notification that the technician tagged me in a comment",       supportStatus:'Done',priority:'Major',created:'2025-10-09',ybScore:null,notes:''},
+  {supportKey:'DS-39', devKey:'YEL-3973',devStatus:'Done',type:'Bug',    summary:'Locked tickets',                                                                             supportStatus:'Done',priority:'Major',created:'2025-10-09',ybScore:null,notes:''},
+  {supportKey:'DS-35', devKey:'YEL-3925',devStatus:'Done',type:'Question',summary:'Why is expected completion status showing?',                                                supportStatus:'Done',priority:'Minor',created:'2025-10-08',ybScore:null,notes:''},
+  {supportKey:'DS-34', devKey:null,       devStatus:null,  type:'Question',summary:"Why can't I insert an image here that I have a question about?",                           supportStatus:'Done',priority:'Minor',created:'2025-10-08',ybScore:null,notes:''},
+  {supportKey:'DS-33', devKey:null,       devStatus:null,  type:'Email',  summary:'YellowBeard',                                                                                supportStatus:'Done',priority:'Major',created:'2025-10-08',ybScore:null,notes:''},
+];
+
+function setStatus(msg) {
+  const el = document.getElementById('sync-status');
+  if (el) el.textContent = msg;
+}
+
+// Load scores from server, fall back to localStorage
+function loadScores() {
+  setStatus('Loading…');
+  fetch('/api/scores')
+    .then(r => r.json())
+    .then(saved => {
+      DATA.forEach(t => {
+        const v = saved['yb2_' + t.supportKey];
+        if (v) { t.ybScore = v.s ?? null; t.notes = v.n || ''; }
+      });
+      setStatus('');
+      render();
+    })
+    .catch(() => {
+      // Fallback: load from localStorage
+      DATA.forEach(t => {
+        try {
+          const s = localStorage.getItem('yb2_' + t.supportKey);
+          if (s) { const p = JSON.parse(s); t.ybScore = p.s ?? null; t.notes = p.n || ''; }
+        } catch(e) {}
+      });
+      setStatus('⚠ Offline');
+      render();
+    });
+}
+
+// Save to server, mirror to localStorage as backup
+function save(key) {
+  const t = DATA.find(x => x.supportKey === key);
+  if (!t) return;
+  // Mirror to localStorage immediately
+  try { localStorage.setItem('yb2_' + key, JSON.stringify({s: t.ybScore, n: t.notes})); } catch(e) {}
+  // Persist to server
+  fetch('/api/scores', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ key: 'yb2_' + key, score: t.ybScore, notes: t.notes })
+  }).catch(() => {}); // silent fail — localStorage has the backup
+}
+
+let sortCol = 'created', sortDir = -1;
+const COL_KEYS = ['supportKey','type','summary','supportStatus','devKey','devStatus','priority','created','ybScore'];
+
+function sortBy(col) {
+  if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = 1; }
+  document.querySelectorAll('#thead-row th').forEach((th, i) => {
+    th.className = COL_KEYS[i] === col ? (sortDir === 1 ? 'asc' : 'desc') : '';
+  });
+  render();
+}
+
+function toggleMsDropdown(e) {
+  e.stopPropagation();
+  const dd = document.getElementById('ms-support-dd');
+  const btn = document.getElementById('ms-support-btn');
+  const open = dd.style.display === 'none';
+  dd.style.display = open ? 'block' : 'none';
+  btn.classList.toggle('open', open);
+}
+
+function onStatusChange() {
+  const checked = [...document.querySelectorAll('#ms-support-dd input[type=checkbox]:checked')].map(el => el.value);
+  const btn = document.getElementById('ms-support-btn');
+  if (checked.length === 0) {
+    document.getElementById('ms-support-label').textContent = 'All Support statuses';
+    btn.classList.remove('active');
+  } else if (checked.length === 1) {
+    document.getElementById('ms-support-label').textContent = checked[0];
+    btn.classList.add('active');
+  } else {
+    document.getElementById('ms-support-label').textContent = checked.length + ' statuses selected';
+    btn.classList.add('active');
+  }
+  render();
+}
+
+function clearStatuses() {
+  document.querySelectorAll('#ms-support-dd input[type=checkbox]').forEach(cb => cb.checked = false);
+  onStatusChange();
+}
+
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('ms-support-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('ms-support-dd').style.display = 'none';
+    document.getElementById('ms-support-btn').classList.remove('open');
+  }
+});
+
+function getFiltered() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const ft = document.getElementById('f-type').value;
+  const selectedStatuses = [...document.querySelectorAll('#ms-support-dd input[type=checkbox]:checked')].map(el => el.value);
+  const fd = document.getElementById('f-dev').value;
+  return DATA.filter(t => {
+    if (ft && t.type !== ft) return false;
+    if (selectedStatuses.length > 0 && !selectedStatuses.includes(t.supportStatus)) return false;
+    if (fd && t.devStatus !== fd) return false;
+    if (q) {
+      const hay = [t.supportKey, t.devKey||'', t.summary, t.notes].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function getSorted(list) {
+  return [...list].sort((a, b) => {
+    let av = a[sortCol], bv = b[sortCol];
+    if (sortCol === 'ybScore') { av = av === null ? 9999 : +av; bv = bv === null ? 9999 : +bv; }
+    if (av == null) av = ''; if (bv == null) bv = '';
+    if (av < bv) return -sortDir;
+    if (av > bv) return sortDir;
+    return 0;
+  });
+}
+
+function devStatusClass(s) {
+  const m = (s||'').toLowerCase().replace(/\s+/g,'');
+  return {todo:'s-todo',inprogress:'s-inprogress',onhold:'s-onhold',nextup:'s-nextup',done:'s-done'}[m] || 's-todo';
+}
+function supportStatusClass(s) {
+  const m = (s||'').toLowerCase().replace(/\s+/g,'');
+  if (m === 'escalated') return 's-escalated';
+  if (m === 'inprogress') return 's-inprogress';
+  if (m === 'done') return 's-done';
+  return 's-todo';
+}
+function typeClass(t) { return 't-' + (t||'').toLowerCase(); }
+
+function render() {
+  const rows = getSorted(getFiltered());
+  const tbody = document.getElementById('tbody');
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="10" class="no-results">No tickets match your filters.</td></tr>`;
+  } else {
+    tbody.innerHTML = rows.map(t => {
+      const isDone = t.supportStatus === 'Done';
+      const isDevTicket = t.devKey && t.devKey.startsWith('YEL-');
+      const devLink = t.devKey
+        ? (isDevTicket
+            ? `<a href="${SITE}/browse/${t.devKey}" target="_blank">${t.devKey}</a>`
+            : `<span style="color:var(--gray)">${t.devKey}</span>`)
+        : `<span style="color:var(--gray)">—</span>`;
+      const devPill = t.devStatus
+        ? `<span class="pill ${devStatusClass(t.devStatus)}">${t.devStatus}</span>`
+        : `<span style="color:var(--gray)">—</span>`;
+      return `<tr class="${isDone ? 'done-row' : ''}">
+        <td class="key"><a href="${SITE}/browse/${t.supportKey}" target="_blank">${t.supportKey}</a></td>
+        <td><span class="tag ${typeClass(t.type)}">${t.type}</span></td>
+        <td class="summary" title="${esc(t.summary)}">${esc(t.summary)}</td>
+        <td><span class="pill ${supportStatusClass(t.supportStatus)}">${t.supportStatus}</span></td>
+        <td class="key">${devLink}</td>
+        <td>${devPill}</td>
+        <td class="${t.priority==='Major'?'prio-major':'prio-minor'}">${t.priority}</td>
+        <td style="color:var(--gray);white-space:nowrap">${t.created}</td>
+        <td>
+          <input class="score-input" type="number" min="1" max="20"
+            value="${t.ybScore !== null ? t.ybScore : ''}"
+            placeholder="—"
+            onchange="onScore('${t.supportKey}',this)"
+            oninput="clamp(this)">
+        </td>
+        <td>
+          <textarea class="notes-input" rows="2" placeholder="Add notes…"
+            onchange="onNotes('${t.supportKey}',this)">${esc(t.notes||'')}</textarea>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+  renderStats();
+}
+
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function clamp(el) {
+  const v = parseInt(el.value);
+  if (el.value !== '' && !isNaN(v)) {
+    if (v < 1) el.value = 1;
+    if (v > 20) el.value = 20;
+  }
+}
+
+function onScore(key, el) {
+  const t = DATA.find(x => x.supportKey === key);
+  if (!t) return;
+  const v = parseInt(el.value);
+  t.ybScore = (el.value === '' || isNaN(v)) ? null : Math.min(20, Math.max(1, v));
+  save(key);
+  renderStats();
+}
+
+function onNotes(key, el) {
+  const t = DATA.find(x => x.supportKey === key);
+  if (!t) return;
+  t.notes = el.value;
+  save(key);
+}
+
+function renderStats() {
+  const open = DATA.filter(t => t.supportStatus !== 'Done').length;
+  const done = DATA.filter(t => t.supportStatus === 'Done').length;
+  const bugs = DATA.filter(t => t.type === 'Bug' && t.supportStatus !== 'Done').length;
+  document.getElementById('stats-bar').innerHTML = [
+    {val: open, lbl:'Open'},
+    {val: done, lbl:'Done'},
+    {val: bugs, lbl:'Open Bugs'},
+  ].map(s => `<div class="stat"><div class="val">${s.val}</div><div class="lbl">${s.lbl}</div></div>`).join('');
+}
+
+function exportCSV() {
+  const rows = getSorted(getFiltered());
+  const hdr = ['Support Key','Type','Summary','Support Status','Dev Key','Dev Status','Priority','Created','YB Score','Notes'];
+  const csv = [hdr, ...rows.map(t => [
+    t.supportKey, t.type, '"'+t.summary.replace(/"/g,'""')+'"', t.supportStatus,
+    t.devKey||'', t.devStatus||'', t.priority, t.created,
+    t.ybScore ?? '', '"'+(t.notes||'').replace(/"/g,'""')+'"'
+  ])].map(r => r.join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+  a.download = 'yellowbeard-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+}
+
+document.getElementById('sync-date').textContent = SYNC;
+document.querySelectorAll('#thead-row th')[7].className = 'desc';
+loadScores(); // loads from server then renders
+</script>
+</body>
+</html>
