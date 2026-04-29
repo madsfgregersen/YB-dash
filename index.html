@@ -161,6 +161,7 @@
         <th onclick="sortBy('summary')">Summary</th>
         <th onclick="sortBy('supportStatus')">Support Status</th>
         <th onclick="sortBy('devKey')">Dev Ticket</th>
+        <th>Sprint</th>
         <th onclick="sortBy('devStatus')">Dev Status</th>
         <th onclick="sortBy('priority')">Priority</th>
         <th onclick="sortBy('created')">Created</th>
@@ -315,6 +316,15 @@ const DATA = [
   {supportKey:'DS-33', devKey:null,       devStatus:null,  type:'Email',  summary:'YellowBeard',                                                                                supportStatus:'Done',priority:'Major',created:'2025-10-08',ybScore:null,notes:''},
 ];
 
+let SPRINTS = {};
+
+function loadSprints() {
+  fetch('/api/sprints')
+    .then(r => r.json())
+    .then(data => { SPRINTS = data; render(); })
+    .catch(() => {}); // silent fail — sprint column just shows —
+}
+
 function setStatus(msg) {
   const el = document.getElementById('sync-status');
   if (el) el.textContent = msg;
@@ -454,7 +464,7 @@ function render() {
   const rows = getSorted(getFiltered());
   const tbody = document.getElementById('tbody');
   if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="10" class="no-results">No tickets match your filters.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="11" class="no-results">No tickets match your filters.</td></tr>`;
   } else {
     tbody.innerHTML = rows.map(t => {
       const isDone = t.supportStatus === 'Done';
@@ -473,6 +483,7 @@ function render() {
         <td class="summary" title="${esc(t.summary)}">${esc(t.summary)}</td>
         <td><span class="pill ${supportStatusClass(t.supportStatus)}">${t.supportStatus}</span></td>
         <td class="key">${devLink}</td>
+        <td style="color:var(--gray);white-space:nowrap;font-size:11px">${t.devKey && SPRINTS[t.devKey] ? esc(SPRINTS[t.devKey]) : '—'}</td>
         <td>${devPill}</td>
         <td class="${t.priority==='Major'?'prio-major':'prio-minor'}">${t.priority}</td>
         <td style="color:var(--gray);white-space:nowrap">${t.created}</td>
@@ -547,6 +558,7 @@ function exportCSV() {
 document.getElementById('sync-date').textContent = SYNC;
 document.querySelectorAll('#thead-row th')[7].className = 'desc';
 loadScores(); // loads from server then renders
+loadSprints(); // loads sprint names from Jira via serverless function
 </script>
 </body>
 </html>
