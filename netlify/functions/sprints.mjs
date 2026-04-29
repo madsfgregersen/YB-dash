@@ -35,7 +35,6 @@ export default async (req) => {
     for (const issue of data.issues) {
       const sprintField = issue.fields?.customfield_10020;
       if (sprintField && sprintField.length > 0) {
-        // Prefer active sprint, fall back to most recent
         const sprint = sprintField.find(s => s.state === 'active') || sprintField[sprintField.length - 1];
         sprints[issue.key] = sprint.name;
       }
