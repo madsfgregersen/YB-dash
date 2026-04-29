@@ -8,19 +8,25 @@ export default async (req) => {
   }
 
   const auth = Buffer.from(`${email}:${token}`).toString('base64');
-  const jql = encodeURIComponent('project = YEL AND  ORDER BY updated DESC');
-  const url = `https://${domain}/rest/api/3/search?jql=${jql}&fields=customfield_10020&maxResults=500`;
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`https://${domain}/rest/api/3/search`, {
+      method: 'POST',
       headers: {
         'Authorization': `Basic ${auth}`,
-        'Accept': 'application/json'
-      }
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        jql: 'project = YEL ORDER BY updated DESC',
+        fields: ['customfield_10020'],
+        maxResults: 500
+      })
     });
 
     if (!response.ok) {
-      return Response.json({ error: `Jira API error: ${response.status}` }, { status: 500 });
+      const text = await response.text();
+      return Response.json({ error: `Jira API error: ${response.status}`, detail: text }, { status: 500 });
     }
 
     const data = await response.json();
