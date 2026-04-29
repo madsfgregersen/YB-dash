@@ -1,3 +1,4 @@
+```js
 export default async (req) => {
   const domain = 'weiswise.atlassian.net';
   const email = process.env.JIRA_EMAIL;
@@ -19,8 +20,8 @@ export default async (req) => {
       },
       body: JSON.stringify({
         jql: 'project = YEL ORDER BY updated DESC',
-        fields: ['customfield_10020'],
-        maxResults: 500
+        fields: ['*all'],
+        maxResults: 1
       })
     });
 
@@ -30,17 +31,15 @@ export default async (req) => {
     }
 
     const data = await response.json();
-    const sprints = {};
-
-    for (const issue of data.issues) {
-      const sprintField = issue.fields?.customfield_10020;
-      if (sprintField && sprintField.length > 0) {
-        const sprint = sprintField.find(s => s.state === 'active') || sprintField[sprintField.length - 1];
-        sprints[issue.key] = sprint.name;
-      }
-    }
-
-    return Response.json(sprints);
+    const first = data.issues?.[0];
+    // Return field keys of the first issue so we can find the sprint field name
+    return Response.json({
+      key: first?.key,
+      fieldKeys: first?.fields ? Object.keys(first.fields) : [],
+      sprintSample: Object.entries(first?.fields || {})
+        .filter(([k, v]) => JSON.stringify(v).toLowerCase().includes('sprint'))
+        .reduce((acc, [k, v]) => { acc[k] = v; return acc; }, {})
+    });
   } catch (err) {
     return Response.json({ error: err.message }, { status: 500 });
   }
@@ -49,3 +48,4 @@ export default async (req) => {
 export const config = {
   path: '/api/sprints'
 };
+```
