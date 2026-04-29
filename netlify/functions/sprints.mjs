@@ -19,8 +19,8 @@ export default async (req) => {
       },
       body: JSON.stringify({
         jql: 'project = YEL ORDER BY updated DESC',
-        fields: ['*all'],
-        maxResults: 1
+        fields: ['parent'],
+        maxResults: 500
       })
     });
 
@@ -30,21 +30,16 @@ export default async (req) => {
     }
 
     const data = await response.json();
-    const first = data.issues && data.issues[0];
-    const fields = (first && first.fields) ? first.fields : {};
+    const sprints = {};
 
-    const sprintSample = {};
-    Object.entries(fields).forEach(function(entry) {
-      if (JSON.stringify(entry[1]).toLowerCase().includes('sprint')) {
-        sprintSample[entry[0]] = entry[1];
+    data.issues.forEach(function(issue) {
+      const parent = issue.fields && issue.fields.parent;
+      if (parent && parent.fields && parent.fields.summary) {
+        sprints[issue.key] = parent.fields.summary;
       }
     });
 
-    return Response.json({
-      key: first && first.key,
-      fieldKeys: Object.keys(fields),
-      sprintSample: sprintSample
-    });
+    return Response.json(sprints);
   } catch (err) {
     return Response.json({ error: err.message }, { status: 500 });
   }
