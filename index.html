@@ -89,6 +89,7 @@
 
   .pill { padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; white-space: nowrap; }
   .s-escalated  { background:#fdecea; color:#c0392b; }
+  .s-waiting    { background:#fef3e2; color:#b7681d; }
   .s-inprogress { background:#e8f5e9; color:#27ae60; }
   .s-todo       { background:#f0f0f0; color:#555; }
   .s-onhold     { background:#fef9e7; color:#d68910; }
@@ -163,6 +164,7 @@
     <div class="ms-dropdown" id="ms-support-dd" style="display:none">
       <label class="ms-option"><input type="checkbox" value="Escalated" onchange="onStatusChange()"> Escalated</label>
       <label class="ms-option"><input type="checkbox" value="In Progress" onchange="onStatusChange()"> In Progress</label>
+      <label class="ms-option"><input type="checkbox" value="Waiting for Support" onchange="onStatusChange()"> Waiting for Support</label>
       <label class="ms-option"><input type="checkbox" value="Done" onchange="onStatusChange()"> Done</label>
       <div class="ms-divider"></div>
       <button class="ms-clear" onclick="clearStatuses()">Clear selection</button>
@@ -475,6 +477,7 @@ function devStatusClass(s) {
 function supportStatusClass(s) {
   const m = (s||'').toLowerCase().replace(/\s+/g,'');
   if (m === 'escalated') return 's-escalated';
+  if (m === 'waitingforsupport') return 's-waiting';
   if (m === 'inprogress') return 's-inprogress';
   if (m === 'done') return 's-done';
   return 's-todo';
