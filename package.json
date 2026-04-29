@@ -1,0 +1,5 @@
+# in your YB-dash repo folder
+echo '{"type":"module"}' > package.json
+git add package.json
+git commit -m "Fix: declare ES module for Netlify Blobs compatibility"
+git push
