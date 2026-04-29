@@ -18,6 +18,18 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--purple-lighter); color: var(--dark); font-size: 13px; }
 
+  /* Password gate */
+  #pw-gate { position: fixed; inset: 0; background: var(--purple); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+  #pw-gate.hidden { display: none; }
+  .pw-box { background: white; border-radius: 14px; padding: 40px 36px; width: 320px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.18); }
+  .pw-box h2 { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .pw-box p { font-size: 12px; color: var(--gray); margin-bottom: 24px; }
+  .pw-input { width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; margin-bottom: 12px; }
+  .pw-input:focus { border-color: var(--purple); }
+  .pw-btn { width: 100%; padding: 10px; background: var(--purple); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .pw-btn:hover { opacity: 0.9; }
+  .pw-error { font-size: 12px; color: #e53e3e; margin-top: 8px; min-height: 16px; }
+
   .header { background: var(--purple); color: white; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; }
   .header-left { display: flex; align-items: center; gap: 10px; }
   .logo { width: 28px; height: 28px; background: white; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -100,6 +112,16 @@
 </style>
 </head>
 <body>
+
+<div id="pw-gate">
+  <div class="pw-box">
+    <h2>YellowBeard Dashboard</h2>
+    <p>Enter the password to continue</p>
+    <input id="pw-input" class="pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="pw-btn" onclick="checkPw()">Unlock</button>
+    <div id="pw-error" class="pw-error"></div>
+  </div>
+</div>
 
 <div class="header">
   <div class="header-left">
@@ -557,6 +579,22 @@ function exportCSV() {
 
 document.getElementById('sync-date').textContent = SYNC;
 document.querySelectorAll('#thead-row th')[7].className = 'desc';
+// Password gate
+const PW = 'yellowbeard2024'; // change this to your preferred password
+function checkPw() {
+  const val = document.getElementById('pw-input').value;
+  if (val === PW) {
+    sessionStorage.setItem('yb-auth', '1');
+    document.getElementById('pw-gate').classList.add('hidden');
+  } else {
+    document.getElementById('pw-error').textContent = 'Incorrect password — try again.';
+    document.getElementById('pw-input').value = '';
+  }
+}
+if (sessionStorage.getItem('yb-auth') === '1') {
+  document.getElementById('pw-gate').classList.add('hidden');
+}
+
 loadScores(); // loads from server then renders
 loadSprints(); // loads sprint names from Jira via serverless function
 </script>
