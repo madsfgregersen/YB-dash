@@ -8,7 +8,7 @@ export default async (req) => {
   }
 
   const auth = Buffer.from(`${email}:${token}`).toString('base64');
-  const jql = encodeURIComponent('project = YEL AND sprint is not EMPTY ORDER BY updated DESC');
+  const jql = encodeURIComponent('project = YEL AND  ORDER BY updated DESC');
   const url = `https://${domain}/rest/api/3/search?jql=${jql}&fields=customfield_10020&maxResults=500`;
 
   try {
