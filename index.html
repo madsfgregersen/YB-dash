@@ -163,10 +163,7 @@
       <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
     </button>
     <div class="ms-dropdown" id="ms-support-dd" style="display:none">
-      <label class="ms-option"><input type="checkbox" value="Escalated" onchange="onStatusChange()"> Escalated</label>
-      <label class="ms-option"><input type="checkbox" value="In Progress" onchange="onStatusChange()"> In Progress</label>
-      <label class="ms-option"><input type="checkbox" value="Waiting for Support" onchange="onStatusChange()"> Waiting for Support</label>
-      <label class="ms-option"><input type="checkbox" value="Done" onchange="onStatusChange()"> Done</label>
+      <!-- populated dynamically by buildStatusDropdown() after data loads -->
       <div class="ms-divider"></div>
       <button class="ms-clear" onclick="clearStatuses()">Clear selection</button>
     </div>
@@ -305,6 +302,32 @@ function clearStatuses() {
   onStatusChange();
 }
 
+// Status order preference — known statuses appear first in this order
+const STATUS_ORDER = ['Escalated','In Progress','Waiting for Support','Waiting for customer','Deferred to Roadmap','On Hold','Done'];
+
+function buildStatusDropdown() {
+  const dd = document.getElementById('ms-support-dd');
+  const divider = dd.querySelector('.ms-divider');
+  // Remove any previously built options
+  dd.querySelectorAll('.ms-option').forEach(el => el.remove());
+  // Collect unique statuses from loaded data
+  const all = [...new Set(DATA.map(t => t.supportStatus).filter(Boolean))];
+  // Sort: known order first, then alphabetical for any unknowns
+  all.sort((a, b) => {
+    const ai = STATUS_ORDER.indexOf(a), bi = STATUS_ORDER.indexOf(b);
+    if (ai !== -1 && bi !== -1) return ai - bi;
+    if (ai !== -1) return -1;
+    if (bi !== -1) return 1;
+    return a.localeCompare(b);
+  });
+  all.forEach(status => {
+    const lbl = document.createElement('label');
+    lbl.className = 'ms-option';
+    lbl.innerHTML = '<input type="checkbox" value="' + status + '" onchange="onStatusChange()"> ' + status;
+    dd.insertBefore(lbl, divider);
+  });
+}
+
 document.addEventListener('click', function(e) {
   const wrap = document.getElementById('ms-support-wrap');
   if (wrap && !wrap.contains(e.target)) {
@@ -429,10 +452,14 @@ function renderStats() {
   const open = DATA.filter(t => t.supportStatus !== 'Done').length;
   const done = DATA.filter(t => t.supportStatus === 'Done').length;
   const bugs = DATA.filter(t => t.type === 'Bug' && t.supportStatus !== 'Done').length;
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 30);
+  const cutoffStr = cutoff.toISOString().slice(0, 10);
+  const closed30 = DATA.filter(t => t.supportStatus === 'Done' && (t.updated || t.created) >= cutoffStr).length;
   document.getElementById('stats-bar').innerHTML = [
-    {val: open, lbl:'Open'},
-    {val: done, lbl:'Done'},
-    {val: bugs, lbl:'Open Bugs'},
+    {val: open,     lbl:'Open'},
+    {val: done,     lbl:'Done'},
+    {val: bugs,     lbl:'Open Bugs'},
+    {val: closed30, lbl:'Closed (30d)'},
   ].map(s => `<div class="stat"><div class="val">${s.val}</div><div class="lbl">${s.lbl}</div></div>`).join('');
 }
 
@@ -469,8 +496,9 @@ if (sessionStorage.getItem('yb-auth') === '1') {
 }
 
 loadData(function() {
-  loadScores();  // merges server-side ybScore/notes, then renders
-  loadSprints(); // loads sprint names from Jira via serverless function
+  buildStatusDropdown(); // populate status filter from actual data
+  loadScores();          // merges server-side ybScore/notes, then renders
+  loadSprints();         // loads sprint names from Jira via serverless function
 });
 </script>
 </body>
