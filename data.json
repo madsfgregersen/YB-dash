@@ -1,16 +1,173 @@
 {
-  "sync": "2026-05-11",
+  "sync": "2026-05-27",
   "tickets": [
+    {
+      "supportKey": "DS-404",
+      "devKey": null,
+      "devStatus": null,
+      "reporter": "Kasper M",
+      "type": "Bug",
+      "summary": "Afklaring: Hvornår bliver disse 2 opgaver slettet?",
+      "supportStatus": "Waiting for support",
+      "priority": "Major",
+      "created": "2026-05-26",
+      "updated": "2026-05-26"
+    },
+    {
+      "supportKey": "DS-403",
+      "devKey": "YEL-4198",
+      "devStatus": "To Do",
+      "reporter": "Kasper M",
+      "type": "Bug",
+      "summary": "Samme ticket vises dobbelt i opgaveoversigten",
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-05-26",
+      "updated": "2026-05-26"
+    },
+    {
+      "supportKey": "DS-401",
+      "devKey": "YEL-4197",
+      "devStatus": "To Do",
+      "reporter": "Kasper M",
+      "type": "Bug",
+      "summary": "Rapporter",
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-05-22",
+      "updated": "2026-05-22"
+    },
+    {
+      "supportKey": "DS-400",
+      "devKey": "YEL-4196",
+      "devStatus": "To Do",
+      "reporter": "Kasper M",
+      "type": "Bug",
+      "summary": "Push-notifikationer i YellowBeard-appen fungerer ikke på iPhone ved nye opgaver på maskiner, selvom notifikationer er aktiveret både i appen og i iPhone-indstillinger.",
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-05-22",
+      "updated": "2026-05-22"
+    },
+    {
+      "supportKey": "DS-398",
+      "devKey": "YEL-4195",
+      "devStatus": "Done",
+      "reporter": "Kasper M",
+      "type": "Bug",
+      "summary": "URGENT, Franke payment is failing",
+      "supportStatus": "Done",
+      "priority": "Major",
+      "created": "2026-05-21",
+      "updated": "2026-05-22"
+    },
+    {
+      "supportKey": "DS-397",
+      "devKey": "YEL-4194",
+      "devStatus": "To Do",
+      "reporter": "Trine Stauersbøll",
+      "type": "Question",
+      "summary": "Creation of price group ?",
+      "supportStatus": "In Progress",
+      "priority": "Major",
+      "created": "2026-05-20",
+      "updated": "2026-05-20"
+    },
+    {
+      "supportKey": "DS-396",
+      "devKey": "YEL-4193",
+      "devStatus": "To Do",
+      "reporter": "Trine Stauersbøll",
+      "type": "Question",
+      "summary": "Receipt for coffee purchase?",
+      "supportStatus": "In Progress",
+      "priority": "Major",
+      "created": "2026-05-20",
+      "updated": "2026-05-20"
+    },
+    {
+      "supportKey": "DS-386",
+      "devKey": "YEL-4192",
+      "devStatus": "Done",
+      "reporter": "Kasper M",
+      "type": "Bug",
+      "summary": "Lager Sjælland syncronicerer ikke korrekt",
+      "supportStatus": "Done",
+      "priority": "Major",
+      "created": "2026-05-15",
+      "updated": "2026-05-19"
+    },
+    {
+      "supportKey": "DS-381",
+      "devKey": "YEL-4191",
+      "devStatus": "Done",
+      "reporter": "Camilla K. Ewers",
+      "type": "Question",
+      "summary": "Why am I unable to close this task?",
+      "supportStatus": "Done",
+      "priority": "Major",
+      "created": "2026-05-13",
+      "updated": "2026-05-14"
+    },
+    {
+      "supportKey": "DS-366",
+      "devKey": "YEL-4187",
+      "devStatus": "To Do",
+      "reporter": "Kasper M",
+      "type": "Request",
+      "summary": "Manglende notifikations-badges ved nye billeder og reservedele i appen",
+      "supportStatus": "Deferred to Roadmap",
+      "priority": "Major",
+      "created": "2026-05-12",
+      "updated": "2026-05-14"
+    },
+    {
+      "supportKey": "DS-365",
+      "devKey": "YEL-4188",
+      "devStatus": "Done",
+      "reporter": "Kasper M",
+      "type": "Bug",
+      "summary": "SMART reservedel syncroniserer ikke med economic",
+      "supportStatus": "Done",
+      "priority": "Major",
+      "created": "2026-05-12",
+      "updated": "2026-05-14"
+    },
+    {
+      "supportKey": "DS-364",
+      "devKey": "YEL-4189",
+      "devStatus": "Done",
+      "reporter": "cjl@yellowbeard.com",
+      "type": "Bug",
+      "summary": "The products are not synchronizing.",
+      "supportStatus": "Done",
+      "priority": "Major",
+      "created": "2026-05-12",
+      "updated": "2026-05-14"
+    },
+    {
+      "supportKey": "DS-362",
+      "devKey": "YEL-4190",
+      "devStatus": "Done",
+      "reporter": "Trine Stauersbøll",
+      "type": "Request",
+      "summary": "Cup agreements report periods",
+      "supportStatus": "Done",
+      "priority": "Major",
+      "created": "2026-05-11",
+      "updated": "2026-05-18"
+    },
     {
       "supportKey": "DS-350",
       "devKey": "YEL-4186",
-      "devStatus": "To Do",
+      "devStatus": "In Review",
       "reporter": "Trine Stauersbøll",
       "type": "Request",
       "summary": "Default service agreement in offer template",
       "supportStatus": "Deferred to Roadmap",
       "priority": "Major",
-      "created": "2026-05-05"
+      "created": "2026-05-05",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-348",
@@ -21,18 +178,20 @@
       "summary": "Invoice for overconsumption",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-05-04"
+      "created": "2026-05-04",
+      "updated": "2026-05-04"
     },
     {
       "supportKey": "DS-347",
       "devKey": "YEL-4167",
-      "devStatus": "To Do",
+      "devStatus": "Done",
       "reporter": "Trine Stauersbøll",
       "type": "Bug",
       "summary": "The price in the webshop order is different from the price on the invoice.",
-      "supportStatus": "Escalated",
+      "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-04-30"
+      "created": "2026-04-30",
+      "updated": "2026-05-26"
     },
     {
       "supportKey": "DS-346",
@@ -42,8 +201,9 @@
       "type": "Request",
       "summary": "Onboard new machines from ISS (New Customer)",
       "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-04-30"
+      "priority": "Major",
+      "created": "2026-04-30",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-339",
@@ -54,7 +214,8 @@
       "summary": "The main user has the correct price in the shop, but the sub-users do not.",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-29"
+      "created": "2026-04-29",
+      "updated": "2026-05-26"
     },
     {
       "supportKey": "DS-338",
@@ -63,9 +224,10 @@
       "reporter": "Mads Gregersen",
       "type": "Request",
       "summary": "Sales tool fixes needed",
-      "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-04-29"
+      "supportStatus": "Waiting for customer",
+      "priority": "Major",
+      "created": "2026-04-29",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-332",
@@ -76,7 +238,8 @@
       "summary": "Can't create adresse under the subuser.",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-24"
+      "created": "2026-04-24",
+      "updated": "2026-05-19"
     },
     {
       "supportKey": "DS-331",
@@ -87,18 +250,20 @@
       "summary": "The button \"Users\" disappears in the shop ",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-24"
+      "created": "2026-04-24",
+      "updated": "2026-04-27"
     },
     {
       "supportKey": "DS-330",
       "devKey": "YEL-4162",
-      "devStatus": "In Review",
+      "devStatus": "To Do",
       "reporter": "Trine Stauersbøll",
       "type": "Bug",
       "summary": "Wrong Payment option",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-24"
+      "created": "2026-04-24",
+      "updated": "2026-05-11"
     },
     {
       "supportKey": "DS-329",
@@ -107,42 +272,46 @@
       "reporter": "Trine Stauersbøll",
       "type": "Request",
       "summary": "Recurring shipment for customers with an end date. ",
-      "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-04-23"
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-04-23",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-328",
       "devKey": "YEL-4158",
-      "devStatus": "In Progress",
+      "devStatus": "To Do",
       "reporter": "Trine Stauersbøll",
       "type": "Bug",
       "summary": "Screensaver in SMART",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-21"
+      "created": "2026-04-21",
+      "updated": "2026-05-14"
     },
     {
       "supportKey": "DS-324",
       "devKey": "YEL-4156",
-      "devStatus": "Done",
+      "devStatus": "To Do",
       "reporter": "dal@yellowbeard.com",
       "type": "Bug",
       "summary": "Machine models keeps changeing",
-      "supportStatus": "Done",
+      "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-17"
+      "created": "2026-04-17",
+      "updated": "2026-05-04"
     },
     {
       "supportKey": "DS-322",
       "devKey": "YEL-4161",
-      "devStatus": "In Review",
+      "devStatus": "To Do",
       "reporter": "kw@dobby.io",
       "type": "Email",
       "summary": "Re: Indsendelse af formular den 16.04.2026 (Video)",
-      "supportStatus": "Deferred to Roadmap",
+      "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-16"
+      "created": "2026-04-16",
+      "updated": "2026-05-20"
     },
     {
       "supportKey": "DS-321",
@@ -151,20 +320,22 @@
       "reporter": "Kasper M",
       "type": "Request",
       "summary": "Opdeling af afdelinger og service områder i opgaver på app.",
-      "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-04-16"
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-04-16",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-320",
       "devKey": "YEL-4154",
-      "devStatus": "In Review",
+      "devStatus": "To Do",
       "reporter": "Kasper M",
       "type": "Bug",
       "summary": "I opgaver og opgaveoversigt mangler der opgaver ",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-16"
+      "created": "2026-04-16",
+      "updated": "2026-05-13"
     },
     {
       "supportKey": "DS-319",
@@ -173,31 +344,34 @@
       "reporter": "Tinna",
       "type": "Email",
       "summary": "FW: Kan du hjælpe mig med et hurtigt spørgsmål ? (+ privat vedr BBQ SAUCE)",
-      "supportStatus": "Deferred to Roadmap",
+      "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-15"
+      "created": "2026-04-15",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-318",
       "devKey": "YEL-4151",
-      "devStatus": "In Review",
+      "devStatus": "To Do",
       "reporter": "dal@yellowbeard.com",
       "type": "Bug",
       "summary": "Overforbrug",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-14"
+      "created": "2026-04-14",
+      "updated": "2026-05-13"
     },
     {
       "supportKey": "DS-317",
       "devKey": "YEL-4149",
-      "devStatus": "In Review",
+      "devStatus": "To Do",
       "reporter": "Tinna",
       "type": "Email",
-      "summary": "9Re: Send data from MFP14033172 09/04/2026 11:22",
-      "supportStatus": "Done",
+      "summary": "Re: Send data from MFP14033172 09/04/2026 11:22",
+      "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-09"
+      "created": "2026-04-09",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-316",
@@ -206,9 +380,10 @@
       "reporter": "Trine Stauersbøll",
       "type": "Email",
       "summary": "FW: Rettigheder",
-      "supportStatus": "Deferred to Roadmap",
+      "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-09"
+      "created": "2026-04-09",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-315",
@@ -217,9 +392,10 @@
       "reporter": "Peter Randow",
       "type": "Request",
       "summary": "Additional functionalities for sub-users for customers ",
-      "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-04-08"
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-04-08",
+      "updated": "2026-05-26"
     },
     {
       "supportKey": "DS-314",
@@ -228,20 +404,22 @@
       "reporter": "Peter Randow",
       "type": "Request",
       "summary": "Dynamic screen saver on machines ",
-      "supportStatus": "Deferred to Roadmap",
+      "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-08"
+      "created": "2026-04-08",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-313",
       "devKey": "YEL-4145",
-      "devStatus": "In Review",
+      "devStatus": "To Do",
       "reporter": "Mads Gregersen",
       "type": "Bug",
-      "summary": "99A series of coffee agreement bugs",
+      "summary": "A series of coffee agreement bugs",
       "supportStatus": "Escalated",
-      "priority": "Minor",
-      "created": "2026-04-08"
+      "priority": "Major",
+      "created": "2026-04-08",
+      "updated": "2026-05-13"
     },
     {
       "supportKey": "DS-312",
@@ -250,9 +428,10 @@
       "reporter": "Trine Stauersbøll",
       "type": "Request",
       "summary": "Flow plan integration",
-      "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-04-08"
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-04-08",
+      "updated": "2026-05-27"
     },
     {
       "supportKey": "DS-311",
@@ -261,9 +440,10 @@
       "reporter": "Peter Randow",
       "type": "Email",
       "summary": "FW: Login virker ikke",
-      "supportStatus": "Done",
+      "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-04-08"
+      "created": "2026-04-08",
+      "updated": "2026-05-04"
     },
     {
       "supportKey": "DS-309",
@@ -274,7 +454,8 @@
       "summary": "Not able to either delete or edit machine",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-04-07"
+      "created": "2026-04-07",
+      "updated": "2026-04-09"
     },
     {
       "supportKey": "DS-308",
@@ -285,18 +466,20 @@
       "summary": "Kundeordre",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-04-01"
+      "created": "2026-04-01",
+      "updated": "2026-04-17"
     },
     {
       "supportKey": "DS-307",
       "devKey": "YEL-4140",
-      "devStatus": "Done",
+      "devStatus": "To Do",
       "reporter": "Camilla K. Ewers",
       "type": "Question",
       "summary": "Why is customer only receiving an email when the job is created, not when it is assigned or started? Nor when completed?",
-      "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-04-01"
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-04-01",
+      "updated": "2026-05-19"
     },
     {
       "supportKey": "DS-305",
@@ -307,7 +490,8 @@
       "summary": "Dashboard empty",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-27"
+      "created": "2026-03-27",
+      "updated": "2026-04-01"
     },
     {
       "supportKey": "DS-304",
@@ -318,18 +502,20 @@
       "summary": "New customer will not in shop",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-26"
+      "created": "2026-03-26",
+      "updated": "2026-03-26"
     },
     {
       "supportKey": "DS-303",
       "devKey": "YEL-4137",
-      "devStatus": "Done",
+      "devStatus": "In Progress",
       "reporter": "Trine Stauersbøll",
       "type": "Bug",
       "summary": "Machine online status not synchronize from IoT",
-      "supportStatus": "Done",
+      "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-03-26"
+      "created": "2026-03-26",
+      "updated": "2026-05-04"
     },
     {
       "supportKey": "DS-301",
@@ -340,7 +526,8 @@
       "summary": "It's not possible to connect the employee via the app",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-25"
+      "created": "2026-03-25",
+      "updated": "2026-03-26"
     },
     {
       "supportKey": "DS-298",
@@ -350,8 +537,9 @@
       "type": "Question",
       "summary": "Delete service history",
       "supportStatus": "Done",
-      "priority": "Minor",
-      "created": "2026-03-23"
+      "priority": "Major",
+      "created": "2026-03-23",
+      "updated": "2026-03-26"
     },
     {
       "supportKey": "DS-297",
@@ -362,7 +550,8 @@
       "summary": "Fixed deliveries are not included in the coffee agreement report",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-20"
+      "created": "2026-03-20",
+      "updated": "2026-03-26"
     },
     {
       "supportKey": "DS-295",
@@ -372,8 +561,9 @@
       "type": "Request",
       "summary": "Customer report",
       "supportStatus": "Done",
-      "priority": "Minor",
-      "created": "2026-03-19"
+      "priority": "Major",
+      "created": "2026-03-19",
+      "updated": "2026-03-31"
     },
     {
       "supportKey": "DS-275",
@@ -384,7 +574,8 @@
       "summary": "Cannot log in. Urgent!",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-11"
+      "created": "2026-03-11",
+      "updated": "2026-03-19"
     },
     {
       "supportKey": "DS-273",
@@ -395,7 +586,8 @@
       "summary": "Failing YellowPay",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-11"
+      "created": "2026-03-11",
+      "updated": "2026-03-17"
     },
     {
       "supportKey": "DS-272",
@@ -405,19 +597,21 @@
       "type": "Question",
       "summary": "SwitchPay order",
       "supportStatus": "Done",
-      "priority": "Minor",
-      "created": "2026-03-11"
+      "priority": "Major",
+      "created": "2026-03-11",
+      "updated": "2026-03-13"
     },
     {
       "supportKey": "DS-270",
       "devKey": "YEL-4122",
-      "devStatus": "Done",
+      "devStatus": "To Do",
       "reporter": "Camilla K. Ewers",
       "type": "Bug",
       "summary": "Wrongful review",
-      "supportStatus": "Done",
+      "supportStatus": "Waiting for support",
       "priority": "Major",
-      "created": "2026-03-09"
+      "created": "2026-03-09",
+      "updated": "2026-04-30"
     },
     {
       "supportKey": "DS-269",
@@ -428,7 +622,8 @@
       "summary": "kaffeaftale kan ikke oprette Rødovre Bowling",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-09"
+      "created": "2026-03-09",
+      "updated": "2026-03-17"
     },
     {
       "supportKey": "DS-268",
@@ -439,7 +634,8 @@
       "summary": "Salg kan ikke oprette kundeordre til denne kunde CVR 34897778",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-09"
+      "created": "2026-03-09",
+      "updated": "2026-03-19"
     },
     {
       "supportKey": "DS-267",
@@ -450,7 +646,8 @@
       "summary": "Fault on the monthly discount code",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-06"
+      "created": "2026-03-06",
+      "updated": "2026-03-19"
     },
     {
       "supportKey": "DS-266",
@@ -459,9 +656,10 @@
       "reporter": "Trine Stauersbøll",
       "type": "Request",
       "summary": "Purchase agreements should not be possible to set up for recurring delivery.",
-      "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-03-05"
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-03-05",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-264",
@@ -471,8 +669,9 @@
       "type": "Question",
       "summary": "Monitoring of key services",
       "supportStatus": "Done",
-      "priority": "Minor",
-      "created": "2026-03-04"
+      "priority": "Major",
+      "created": "2026-03-04",
+      "updated": "2026-05-22"
     },
     {
       "supportKey": "DS-263",
@@ -483,7 +682,8 @@
       "summary": "Not able to change the task status from “Kørsel” to “I gang” in the app, F260302017",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-04"
+      "created": "2026-03-04",
+      "updated": "2026-03-24"
     },
     {
       "supportKey": "DS-262",
@@ -494,7 +694,8 @@
       "summary": "VS: Flere elementer i status",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-04"
+      "created": "2026-03-04",
+      "updated": "2026-04-15"
     },
     {
       "supportKey": "DS-261",
@@ -505,7 +706,8 @@
       "summary": "VS: Ring venligst tilbage",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-04"
+      "created": "2026-03-04",
+      "updated": "2026-03-19"
     },
     {
       "supportKey": "DS-260",
@@ -516,7 +718,8 @@
       "summary": "Existing purchase agreements are not terminated when an extension is made.",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-04"
+      "created": "2026-03-04",
+      "updated": "2026-03-30"
     },
     {
       "supportKey": "DS-257",
@@ -527,7 +730,8 @@
       "summary": "Price group 81 instead of 88 during synchronization from e-conomic to Smart - Price group 88 YB max procent no longer exists!",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-03"
+      "created": "2026-03-03",
+      "updated": "2026-03-04"
     },
     {
       "supportKey": "DS-256",
@@ -538,7 +742,8 @@
       "summary": "Cannot create service task in the app.",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-03-02"
+      "created": "2026-03-02",
+      "updated": "2026-03-04"
     },
     {
       "supportKey": "DS-252",
@@ -549,7 +754,8 @@
       "summary": "Cup agreement is not showing in shop",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-25"
+      "created": "2026-02-25",
+      "updated": "2026-02-26"
     },
     {
       "supportKey": "DS-251",
@@ -560,18 +766,20 @@
       "summary": "Shop is down",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-25"
+      "created": "2026-02-25",
+      "updated": "2026-04-27"
     },
     {
       "supportKey": "DS-247",
       "devKey": "YEL-4106",
-      "devStatus": "In Progress",
+      "devStatus": "To Do",
       "reporter": "Trine Stauersbøll",
       "type": "Bug",
       "summary": "Machines change model fram MS to FM",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-02-23"
+      "created": "2026-02-23",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-246",
@@ -582,7 +790,8 @@
       "summary": "Task created on water system doesn't appear in SMART as a task for a water system, but as an error.",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-23"
+      "created": "2026-02-23",
+      "updated": "2026-03-19"
     },
     {
       "supportKey": "DS-245",
@@ -592,8 +801,9 @@
       "type": "Question",
       "summary": "Salesperson Thomas Knudsen cannot create an offer ",
       "supportStatus": "Done",
-      "priority": "Minor",
-      "created": "2026-02-23"
+      "priority": "Major",
+      "created": "2026-02-23",
+      "updated": "2026-03-02"
     },
     {
       "supportKey": "DS-244",
@@ -604,7 +814,8 @@
       "summary": "Customer do not receive notifications in their mailbox when tasks are created.",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-19"
+      "created": "2026-02-19",
+      "updated": "2026-03-02"
     },
     {
       "supportKey": "DS-241",
@@ -615,7 +826,8 @@
       "summary": "Orders from Sprinter’s website are not going through",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-17"
+      "created": "2026-02-17",
+      "updated": "2026-03-04"
     },
     {
       "supportKey": "DS-240",
@@ -626,7 +838,8 @@
       "summary": "Cant download coffee subsription",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-17"
+      "created": "2026-02-17",
+      "updated": "2026-02-26"
     },
     {
       "supportKey": "DS-238",
@@ -637,18 +850,20 @@
       "summary": "Webshob down...",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-17"
+      "created": "2026-02-17",
+      "updated": "2026-02-17"
     },
     {
       "supportKey": "DS-237",
       "devKey": "YEL-4099",
-      "devStatus": "To Do",
+      "devStatus": "ABANDONED",
       "reporter": "Camilla K. Ewers",
       "type": "Bug",
       "summary": "Filtered to show only new tasks, bur I can still see these three tasks, even though they are assigned ",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-02-16"
+      "created": "2026-02-16",
+      "updated": "2026-05-13"
     },
     {
       "supportKey": "DS-235",
@@ -657,20 +872,22 @@
       "reporter": "Trine Stauersbøll",
       "type": "Request",
       "summary": "Change address on scheduled deliveries",
-      "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-02-13"
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-02-13",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-234",
       "devKey": "YEL-4097",
-      "devStatus": "Done",
+      "devStatus": "To Do",
       "reporter": "Trine Stauersbøll",
       "type": "Bug",
       "summary": "Coffee subscription is not being stopped",
-      "supportStatus": "Done",
+      "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-02-13"
+      "created": "2026-02-13",
+      "updated": "2026-04-30"
     },
     {
       "supportKey": "DS-233",
@@ -681,7 +898,8 @@
       "summary": "Tilbud",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-12"
+      "created": "2026-02-12",
+      "updated": "2026-02-23"
     },
     {
       "supportKey": "DS-231",
@@ -692,7 +910,8 @@
       "summary": "This customer is claiming that the app is not working. ",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-11"
+      "created": "2026-02-11",
+      "updated": "2026-02-12"
     },
     {
       "supportKey": "DS-230",
@@ -703,7 +922,8 @@
       "summary": "Ikke adgang til Kirppu",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-11"
+      "created": "2026-02-11",
+      "updated": "2026-02-11"
     },
     {
       "supportKey": "DS-228",
@@ -713,8 +933,9 @@
       "type": "Question",
       "summary": "Wrong product on coffe subscription...",
       "supportStatus": "Done",
-      "priority": "Minor",
-      "created": "2026-02-10"
+      "priority": "Major",
+      "created": "2026-02-10",
+      "updated": "2026-02-12"
     },
     {
       "supportKey": "DS-227",
@@ -725,7 +946,8 @@
       "summary": "Scan spar part QR fails",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-10"
+      "created": "2026-02-10",
+      "updated": "2026-02-18"
     },
     {
       "supportKey": "DS-226",
@@ -736,7 +958,8 @@
       "summary": "FW: New college in operations",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-10"
+      "created": "2026-02-10",
+      "updated": "2026-02-10"
     },
     {
       "supportKey": "DS-225",
@@ -745,9 +968,10 @@
       "reporter": "Trine Stauersbøll",
       "type": "Request",
       "summary": "Remove Price Groups when creating a new offer...",
-      "supportStatus": "Deferred to Roadmap",
-      "priority": "Minor",
-      "created": "2026-02-09"
+      "supportStatus": "Escalated",
+      "priority": "Major",
+      "created": "2026-02-09",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-224",
@@ -757,8 +981,9 @@
       "type": "Request",
       "summary": "Salespeople should be able to see all customers.",
       "supportStatus": "Done",
-      "priority": "Minor",
-      "created": "2026-02-09"
+      "priority": "Major",
+      "created": "2026-02-09",
+      "updated": "2026-02-11"
     },
     {
       "supportKey": "DS-223",
@@ -769,7 +994,8 @@
       "summary": "External supplier BWT not receiving task assignment notifications",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-09"
+      "created": "2026-02-09",
+      "updated": "2026-02-16"
     },
     {
       "supportKey": "DS-222",
@@ -780,7 +1006,8 @@
       "summary": "Missing payment option when closing task F260203052",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-02-05"
+      "created": "2026-02-05",
+      "updated": "2026-03-31"
     },
     {
       "supportKey": "DS-218",
@@ -791,7 +1018,8 @@
       "summary": "The cup agreement does not take effect, and customers are invoiced.",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-29"
+      "created": "2026-01-29",
+      "updated": "2026-02-09"
     },
     {
       "supportKey": "DS-216",
@@ -801,8 +1029,9 @@
       "type": "Question",
       "summary": " When customer creates two identical tasks",
       "supportStatus": "Done",
-      "priority": "Minor",
-      "created": "2026-01-29"
+      "priority": "Major",
+      "created": "2026-01-29",
+      "updated": "2026-03-02"
     },
     {
       "supportKey": "DS-212",
@@ -813,7 +1042,8 @@
       "summary": "Customer synchronization to the shop is not working.",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-26"
+      "created": "2026-01-26",
+      "updated": "2026-01-26"
     },
     {
       "supportKey": "DS-211",
@@ -824,7 +1054,8 @@
       "summary": "Proof of work",
       "supportStatus": "Escalated",
       "priority": "Major",
-      "created": "2026-01-23"
+      "created": "2026-01-23",
+      "updated": "2026-05-13"
     },
     {
       "supportKey": "DS-210",
@@ -835,7 +1066,8 @@
       "summary": "Only machine 3400000142471 needs to remain in Smart",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-23"
+      "created": "2026-01-23",
+      "updated": "2026-01-26"
     },
     {
       "supportKey": "DS-209",
@@ -845,8 +1077,9 @@
       "type": "Request",
       "summary": "Omsætningsstatistik --> integration af adressen",
       "supportStatus": "Done",
-      "priority": "Minor",
-      "created": "2026-01-23"
+      "priority": "Major",
+      "created": "2026-01-23",
+      "updated": "2026-04-17"
     },
     {
       "supportKey": "DS-205",
@@ -857,7 +1090,8 @@
       "summary": "FW: Serviceplan",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-22"
+      "created": "2026-01-22",
+      "updated": "2026-02-03"
     },
     {
       "supportKey": "DS-201",
@@ -868,7 +1102,8 @@
       "summary": "FW: en anden EAN udfordring som skal løses.",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-20"
+      "created": "2026-01-20",
+      "updated": "2026-02-26"
     },
     {
       "supportKey": "DS-199",
@@ -879,7 +1114,8 @@
       "summary": "FW: EAN - gør så shop kan huske det flueben",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-20"
+      "created": "2026-01-20",
+      "updated": "2026-02-04"
     },
     {
       "supportKey": "DS-198",
@@ -888,9 +1124,10 @@
       "reporter": "Trine Stauersbøll",
       "type": "Request",
       "summary": "Make Existing Agreement Available in Sales Module ",
-      "supportStatus": "Deferred to Roadmap",
+      "supportStatus": "In Progress",
       "priority": "Major",
-      "created": "2026-01-20"
+      "created": "2026-01-20",
+      "updated": "2026-05-06"
     },
     {
       "supportKey": "DS-197",
@@ -901,7 +1138,8 @@
       "summary": "FW: Standardbetingelser - in YB SMART sales module",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-20"
+      "created": "2026-01-20",
+      "updated": "2026-02-27"
     },
     {
       "supportKey": "DS-188",
@@ -912,7 +1150,8 @@
       "summary": "Postal Code Filter in Task Overview",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-13"
+      "created": "2026-01-13",
+      "updated": "2026-02-05"
     },
     {
       "supportKey": "DS-187",
@@ -923,7 +1162,8 @@
       "summary": "Can't Upload Profile Picture",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-12"
+      "created": "2026-01-12",
+      "updated": "2026-02-03"
     },
     {
       "supportKey": "DS-185",
@@ -934,7 +1174,8 @@
       "summary": "Only one active task per machine",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-09"
+      "created": "2026-01-09",
+      "updated": "2026-02-12"
     },
     {
       "supportKey": "DS-184",
@@ -945,7 +1186,8 @@
       "summary": "Missing info on coffee subscription",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-09"
+      "created": "2026-01-09",
+      "updated": "2026-01-26"
     },
     {
       "supportKey": "DS-183",
@@ -956,150 +1198,8 @@
       "summary": "External partners can see all customers and machines",
       "supportStatus": "Done",
       "priority": "Major",
-      "created": "2026-01-09"
-    },
-    {
-      "supportKey": "DS-179",
-      "devKey": "YEL-4036",
-      "devStatus": "Done",
-      "reporter": "Camilla K. Ewers",
-      "type": "Bug",
-      "summary": "Smart app is not working on Android ",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2026-01-07"
-    },
-    {
-      "supportKey": "DS-178",
-      "devKey": null,
-      "devStatus": null,
-      "reporter": "Michael Tjørved Hansen",
-      "type": "Bug",
-      "summary": "Faktura/kopaftale Spira Forsikring GS",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2026-01-07"
-    },
-    {
-      "supportKey": "DS-174",
-      "devKey": "YEL-4035",
-      "devStatus": "Done",
-      "reporter": "Camilla K. Ewers",
-      "type": "Request",
-      "summary": "Not possible to change the year so that you can view previous cleanings.",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2026-01-05"
-    },
-    {
-      "supportKey": "DS-173",
-      "devKey": "YEL-4034",
-      "devStatus": "Done",
-      "reporter": "Michael Tjørved Hansen",
-      "type": "Bug",
-      "summary": "kop rapport",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2026-01-02"
-    },
-    {
-      "supportKey": "DS-169",
-      "devKey": "YEL-4031",
-      "devStatus": "Done",
-      "reporter": "Michael Tjørved Hansen",
-      "type": "Bug",
-      "summary": "kaffeaftale",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2025-12-19"
-    },
-    {
-      "supportKey": "DS-167",
-      "devKey": "YEL-4029",
-      "devStatus": "Done",
-      "reporter": "Trine Stauersbøll",
-      "type": "Bug",
-      "summary": "Customer can't se Machine cleaning detail in Smart...",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2025-12-17"
-    },
-    {
-      "supportKey": "DS-166",
-      "devKey": "YEL-4030",
-      "devStatus": "Done",
-      "reporter": "Camilla K. Ewers",
-      "type": "Bug",
-      "summary": "Technician René can not close this task",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2025-12-17"
-    },
-    {
-      "supportKey": "DS-165",
-      "devKey": "YEL-4028",
-      "devStatus": "Done",
-      "reporter": "Trine Stauersbøll",
-      "type": "Bug",
-      "summary": "The customer cannot see any data in the overview. ",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2025-12-12"
-    },
-    {
-      "supportKey": "DS-163",
-      "devKey": "YEL-4025",
-      "devStatus": "Done",
-      "reporter": "Trine Stauersbøll",
-      "type": "Bug",
-      "summary": "All machines are shown for customers who have no machines.",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2025-12-11"
-    },
-    {
-      "supportKey": "DS-162",
-      "devKey": "YEL-4024",
-      "devStatus": "Done",
-      "reporter": "Trine Stauersbøll",
-      "type": "Bug",
-      "summary": "ccczz",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2025-12-10"
-    },
-    {
-      "supportKey": "DS-161",
-      "devKey": "YEL-4023",
-      "devStatus": "Done",
-      "reporter": "Trine Stauersbøll",
-      "type": "Bug",
-      "summary": "Can’t change the shipping address on coffee subscription.",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2025-12-10"
-    },
-    {
-      "supportKey": "DS-160",
-      "devKey": "YEL-4026",
-      "devStatus": "Done",
-      "reporter": "Trine Stauersbøll",
-      "type": "Bug",
-      "summary": "Sales Person disappears on the customer",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2025-12-09"
-    },
-    {
-      "supportKey": "DS-154",
-      "devKey": "YEL-4004",
-      "devStatus": "Done",
-      "reporter": "Michael Tjørved Hansen",
-      "type": "Bug",
-      "summary": "kaffeaftale",
-      "supportStatus": "Done",
-      "priority": "Major",
-      "created": "2025-12-03"
+      "created": "2026-01-09",
+      "updated": "2026-01-12"
     }
   ]
 }
